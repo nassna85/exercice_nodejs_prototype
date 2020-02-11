@@ -4,6 +4,7 @@ const now = new Date();
 function Model(options) {
   this.db = con;
   this.tableName = options.tableName;
+  this.timestamp = options.timestamp || true;
   this.state = {
     created_at: now,
     updated_at: now
@@ -17,7 +18,7 @@ Model.prototype.findAll = function(callback) {
 
 Model.prototype.insert = function(data, callback) {
   const sql = `INSERT INTO ${this.tableName} SET ?`;
-  const mergedData = Object.assign(this.state, data);
+  const mergedData = this.timestamp ? Object.assign(this.state, data) : data;
   this.db.query(sql, mergedData, callback);
 };
 

@@ -5,7 +5,6 @@ function User() {
     tableName: "users"
   });
 }
-//jfbjsbfjsbfjbs
 User.prototype = Object.create(Model.prototype);
 User.prototype.constructor = Model;
 

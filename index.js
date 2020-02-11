@@ -6,10 +6,11 @@ const addressRouter = require("./routes/address");
 const productRouter = require("./routes/product");
 const cartRouter = require("./routes/cart");
 
+//Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//Routes
+//Middleware Routes
 app.use("/users", userRouter);
 app.use("/address", addressRouter);
 app.use("/products", productRouter);
