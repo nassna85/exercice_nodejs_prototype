@@ -23,6 +23,11 @@ User.prototype.findCartByUser = function(id, callback) {
   this.db.query(sql, id, callback);
 };
 
+User.prototype.findByEmail = function(email, callback) {
+  const sql = `SELECT * FROM ${this.tableName} WHERE email = ?`;
+  this.db.query(sql, email, callback);
+};
+
 User.prototype.checkInput = function(data, callback) {
   if (data.email === "") {
     return console.log("Please enter email !");
