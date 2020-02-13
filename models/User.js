@@ -1,5 +1,6 @@
 const Model = require("./Model");
 
+
 function User() {
   Model.call(this, {
     tableName: "users"
@@ -36,7 +37,9 @@ User.prototype.checkInput = function(data, callback) {
   } else if (data.password.length < 4 || data.password.length > 12) {
     return console.log("Length password between 4 and 12");
   } else {
-    this.insert(data, callback);
+    encrypting(data.password)
+    //const mergedData = this.timestamp ? Object.assign(this.state, data) : data;
+    this.insert(mergedData, callback);
   }
 };
 
