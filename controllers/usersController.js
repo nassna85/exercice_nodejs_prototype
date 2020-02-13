@@ -53,5 +53,9 @@ module.exports = {
       if (error) throw error;
       res.json({ success: "User is deleted" });
     });
+  },
+
+  login: (req, res) => {
+    res.redirect('/');
   }
 };
