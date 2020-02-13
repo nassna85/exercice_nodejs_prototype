@@ -93,6 +93,7 @@ module.exports = {
           user: user
         });
       });
+      //Callback Bind => Eviter les undefined On merge les proprietes pour qu'il puisse connaitre 
     })(req, res);
   }
 };

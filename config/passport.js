@@ -6,9 +6,10 @@ const initialize = passport => {
   const authenticateUser = (email, password, done) => {
     const user = new User();
     //Step 1 : Check if email exist or no
+    //Change paramater user by checkUser
     user.findByEmail(email, (error, user) => {
       if (error) throw error;
-      //console.log(user);
+      console.log(user);
       //Step 2 : If email not exist (user[0] because return a array)
       if (!user[0]) {
         return done(null, false, { message: "Email don't exist !" });
