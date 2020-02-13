@@ -1,5 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/User");
+const { decryptPassword } = require("../services/crypt_password");
 
 const initialize = passport => {
   //Function authenticateUser => Verify data of user
@@ -7,20 +8,36 @@ const initialize = passport => {
     const user = new User();
     //Step 1 : Check if email exist or no
     //Change paramater user by checkUser
-    user.findByEmail(email, (error, user) => {
+    user.findByEmail(email, (error, checkUser) => {
       if (error) throw error;
-      console.log(user);
-      //Step 2 : If email not exist (user[0] because return a array)
-      if (!user[0]) {
+      //console.log(checkUser);
+      //Step 2 : If email not exist (checkUser[0] because return a array)
+      if (!checkUser[0]) {
         return done(null, false, { message: "Email don't exist !" });
       }
       //Step 3 : If email exist, check the password
-      if (password === user[0].password) {
-        //console.log(user[0].password);
-        return done(null, user); //user => it's user authentificated
+      decryptPassword(password, checkUser[0].password)
+        .then(value => {
+          console.log({ decryptPasswordValue: value });
+          value
+            ? done(null, checkUser)
+            : done(null, false, { message: "Password Incorrect !" });
+          /*
+          if (value) return done(null, checkUser);
+          else return done(null, false, { message: "Password Incorrect !" });
+          */
+        })
+        .catch(() => {
+          console.log("Promesse interrompue...");
+        });
+      /*
+      if (password === checkUser[0].password) {
+        //console.log(checkUser[0].password);
+        return done(null, checkUser); //checkUser => it's checkUser authentificated
       } else {
         return done(null, false, { message: "Password Incorrect !" });
       }
+      */
     });
   };
   //Define Localstrategy with email

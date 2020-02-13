@@ -1,4 +1,5 @@
 const Model = require("./Model");
+const { cryptPassword } = require("../services/crypt_password");
 
 function User() {
   Model.call(this, {
@@ -36,7 +37,16 @@ User.prototype.checkInput = function(data, callback) {
   } else if (data.password.length < 4 || data.password.length > 12) {
     return console.log("Length password between 4 and 12");
   } else {
-    this.insert(data, callback);
+    cryptPassword(data.password)
+      .then(value => {
+        console.log(value);
+        data.password = value;
+        this.insert(data, callback);
+      })
+      .catch(() => {
+        console.log("Promesse rompue...");
+        return;
+      });
   }
 };
 
