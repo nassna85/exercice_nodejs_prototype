@@ -39,9 +39,13 @@ User.prototype.checkInput = function(data, callback) {
   } else {
     cryptPassword(data.password)
       .then(value => {
-        console.log(value);
-        data.password = value;
-        this.insert(data, callback);
+        console.log(value); //value = password hashed
+        if (value) {
+          data.password = value;
+          this.insert(data, callback);
+        } else {
+          console.log("Problème lors du cryptage...");
+        }
       })
       .catch(() => {
         console.log("Promesse rompue...");

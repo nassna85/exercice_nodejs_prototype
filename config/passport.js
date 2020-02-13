@@ -18,6 +18,7 @@ const initialize = passport => {
       //Step 3 : If email exist, check the password
       decryptPassword(password, checkUser[0].password)
         .then(value => {
+          //value => return true or false...
           console.log({ decryptPasswordValue: value });
           value
             ? done(null, checkUser)
