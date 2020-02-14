@@ -18,18 +18,13 @@ const initialize = passport => {
       //Step 3 : If email exist, check the password
       decryptPassword(password, checkUser[0].password)
         .then(value => {
-          //value => return true or false...
+          // value correspond à la valeur de resolve (true or false) => La valeur que resolve est censé avoir est true car je lui ai donné cette valeur sinon => catch !
           console.log({ decryptPasswordValue: value });
-          value
-            ? done(null, checkUser)
-            : done(null, false, { message: "Password Incorrect !" });
-          /*
           if (value) return done(null, checkUser);
-          else return done(null, false, { message: "Password Incorrect !" });
-          */
         })
-        .catch(() => {
-          console.log("Promesse interrompue...");
+        .catch(err => {
+          //err correspond a la valeur de reject
+          return done(null, false, { message: err });
         });
       /*
       if (password === checkUser[0].password) {

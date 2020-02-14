@@ -43,13 +43,10 @@ User.prototype.checkInput = function(data, callback) {
         if (value) {
           data.password = value;
           this.insert(data, callback);
-        } else {
-          console.log("Problème lors du cryptage...");
         }
       })
-      .catch(() => {
-        console.log("Promesse rompue...");
-        return;
+      .catch(err => {
+        return err;
       });
   }
 };
