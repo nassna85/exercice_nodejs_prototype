@@ -1,4 +1,5 @@
 const Model = require("./Model");
+const encrypting = require("../config/crypt");
 
 
 function User() {
@@ -29,7 +30,7 @@ User.prototype.findByEmail = function(email, callback) {
   this.db.query(sql, email, callback);
 };
 
-User.prototype.checkInput = function(data, callback) {
+User.prototype.checkInput = (data, callback)  => {
   if (data.email === "") {
     return console.log("Please enter email !");
   } else if (data.password === "") {
@@ -37,9 +38,14 @@ User.prototype.checkInput = function(data, callback) {
   } else if (data.password.length < 4 || data.password.length > 12) {
     return console.log("Length password between 4 and 12");
   } else {
-    encrypting(data.password)
+    encrypting(data.password, function(error, hashedPassword) {
+      data.password = hashedPassword
+      console.log(` crytpted password: ${data.password}`)
+      console.log(this)
+      this.insert(data, callback).bind(this);
+      
+    })
     //const mergedData = this.timestamp ? Object.assign(this.state, data) : data;
-    this.insert(mergedData, callback);
   }
 };
 
