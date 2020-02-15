@@ -9,6 +9,7 @@ const addressRouter = require("./routes/address");
 const productRouter = require("./routes/product");
 const cartRouter = require("./routes/cart");
 const dashboardRouter = require("./routes/dashboard");
+const env = require('./env');
 
 //Middleware
 app.use(express.json());
@@ -44,7 +45,7 @@ con.connect(error => {
 });
 
 //Run Server
-const PORT = 3333;
+const PORT = env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running in port ${PORT}...`);
 });

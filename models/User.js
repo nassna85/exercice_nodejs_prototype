@@ -1,5 +1,5 @@
 const Model = require("./Model");
-const encrypting = require("../config/crypt");
+const {encrypting} = require("../config/crypt");
 
 function User() {
   Model.call(this, {

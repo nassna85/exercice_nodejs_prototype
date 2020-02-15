@@ -1,5 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/User");
+const { comparePassword } = require('./crypt');
 
 const initialize = passport => {
   //Function authenticateUser => Verify data of user
@@ -15,12 +16,22 @@ const initialize = passport => {
         return done(null, false, { message: "Email don't exist !" });
       }
       //Step 3 : If email exist, check the password
+      comparePassword(password, user[0].password).then(value => {
+        if(value) {
+          return done(null, user);
+        }
+      }).catch(err => {
+        console.log(err);
+        return done(null, false, { message: err });
+      })
+      /*
       if (password === user[0].password) {
         //console.log(user[0].password);
         return done(null, user); //user => it's user authentificated
       } else {
         return done(null, false, { message: "Password Incorrect !" });
       }
+      */
     });
   };
   //Define Localstrategy with email

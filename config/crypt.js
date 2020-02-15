@@ -1,7 +1,5 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const myPlaintextPassword = "s0//P4$$w0rD";
-const someOtherPlaintextPassword = "not_bacon";
 
 // const encrypting = (password, callback) => {
 //   console.log(password);
@@ -31,4 +29,22 @@ const encrypting = password => {
     });
   });
 };
-module.exports = encrypting;
+
+/**
+ * 
+ * @param {String} password 
+ * @param {String} passwordHased 
+ */
+const comparePassword = (password, passwordHased) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, passwordHased, function(err, result) {
+      //Result => true or false
+      if(result) {
+        resolve(result)
+      } else {
+        reject("Password Incorrect !")
+      }
+  });
+  })
+}
+module.exports = {encrypting, comparePassword};
